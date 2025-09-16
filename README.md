@@ -14,7 +14,7 @@ Minimal implementation of the **RAG model** for Question Answering.
 2. Create a new environment:
    ```bash
    conda create -n mini-rag python=3.8
-````
+
 
 3. Activate the environment:
 

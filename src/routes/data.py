@@ -1,6 +1,6 @@
 from operator import is_
 from symbol import return_stmt
-from fastapi import FastAPI , APIRouter ,Depends ,UploadFile ,status
+from fastapi import FastAPI , APIRouter ,Request,Depends ,UploadFile ,status
 from fastapi.responses import JSONResponse
 import os
 from helpers.config import get_settings ,Settings
@@ -9,6 +9,7 @@ import aiofiles
 from models import ResponseSignal
 import logging
 from .schemes.data import ProcessRequest
+from models.ProjectModel import ProjectModel
 
 logger = logging.getLogger("uvicorn.erorr")
 
@@ -18,8 +19,17 @@ data_router=APIRouter(
 )
 
 @data_router.post("/upload/{project_id}")
-async def upload_data(project_id: str,file:UploadFile,
+async def upload_data(request: Request,project_id: str,file:UploadFile,
             app_settings:Settings=Depends(get_settings)):
+
+
+    project_model= ProjectModel(
+        db_client=request.app.db_client
+    )
+
+    project=await project_model.get_project_or_create_one(
+        project_id=project_id
+    )
 
     #validate the extintions
     data_controller = DataController()
@@ -59,7 +69,8 @@ async def upload_data(project_id: str,file:UploadFile,
                       content={
 
                         "signal":ResponseSignal.FILE_UPLOAD_SUCCESS.value,
-                        "file_id":file_id
+                        "file_id":file_id,
+                        "project_id" :str(project.id)
                  }
                 )
 

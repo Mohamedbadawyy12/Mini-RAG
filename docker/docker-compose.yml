@@ -6,6 +6,11 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db  
+    environment:
+      - MONNGO_INITDB_ROOT_USERNAME=${MONNGO_INITDB_ROOT_USERNAME}
+      - MONNGO_INITDB_ROOT_PASSWORD=${MONNGO_INITDB_ROOT_PASSWORD}
+      
+
     networks:
       - backend
     restart: always

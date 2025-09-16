@@ -1,6 +1,5 @@
-تمام ✅ ده نسخة **Markdown جاهزة لملف README.md** تقدر تحطها على GitHub على طول:
 
-````
+
 # 📝 mini-rag
 
 Minimal implementation of the **RAG model** for Question Answering.

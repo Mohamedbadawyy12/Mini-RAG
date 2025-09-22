@@ -14,11 +14,11 @@ class LLMinterface(ABC):
 
     @abstractmethod
     def generate_text(self,prompt :str,chat_history:list=[],max_output_tokens:int=None,
-            tempreture:float=None):
+            temperature:float=None):
         pass
 
     @abstractmethod
-    def set_embed_text(self,text:str,doucement_type:str=None):
+    def set_embed_text(self,text:str,document_type:str=None):
         pass
 
     @abstractmethod

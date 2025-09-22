@@ -6,6 +6,8 @@ from pydantic.type_adapter import R
 from ...LLMinterface import LLMinterface
 from openai import OpenAI
 from ...LLMenums import OpenAIEnums
+
+
 class OpenAiProvider(LLMinterface):
     def __init__(self,api_key:str,api_url:str=None,
                     default_input_max_characters:int=1000,
@@ -44,7 +46,7 @@ class OpenAiProvider(LLMinterface):
 
 
         def generate_text(self,prompt :str,chat_history:list=[],max_output_tokens:int=None,
-            tempreture:float=None):
+            temperature:float=None):
 
             if not self.client:
                 self.logger.erorr("Open Ai client was not set")
@@ -55,7 +57,7 @@ class OpenAiProvider(LLMinterface):
 
 
             max_output_tokens=max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
-            tempreture=tempreture if tempreture else self.default_generation_temperature
+            temperature=temperature if temperature else self.default_generation_temperature
 
             chat_history.append(
                 self.construct_prompt(prompt=prompt,role=OpenAIEnums.USER.value)
@@ -66,7 +68,7 @@ class OpenAiProvider(LLMinterface):
                 model=self.generation_model_id,
                 messages=chat_history,
                 max_tokens=max_output_tokens,
-                tempreture=tempreture
+                temperature=temperature
             )
 
             if not Response or not Response.choices or len (Response.choices)==0 or not Response.choices[0].message:
@@ -74,7 +76,7 @@ class OpenAiProvider(LLMinterface):
                 return None
             return Response.choices[0].message["content"]
 
-        def set_embed_text(self,text:str,doucement_type:str=None):
+        def set_embed_text(self,text:str,document_type:str=None):
             if not self.client:
                 self.logger.erorr("Open Ai client was not set")
                 return None

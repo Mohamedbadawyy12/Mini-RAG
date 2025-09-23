@@ -3,9 +3,9 @@ import logging
 from httpx import Response
 from openai.resources.beta.threads import Messages
 from pydantic.type_adapter import R
-from ...LLMinterface import LLMinterface
+from ..LLMinterface import LLMinterface
 from openai import OpenAI
-from ...LLMenums import OpenAIEnums
+from ..LLMenums import OpenAIEnums
 
 
 class OpenAiProvider(LLMinterface):
@@ -33,19 +33,19 @@ class OpenAiProvider(LLMinterface):
 
         self.logger=logging.getLogger(__name__)
 
-        def set_generation_model(self,model_id:str):
+    def set_generation_model(self,model_id:str):
             self.generation_model_id=model_id
 
-        def set_embedding_model(self,model_id:str,embedding_size:int):
+    def set_embedding_model(self,model_id:str,embedding_size:int):
             self.embedding_model_id=model_id
             self.embedding_size=embedding_size
 
 
-        def process_text(self,text:str):
+    def process_text(self,text:str):
             return text [:self.default_input_max_characters].strip()
 
 
-        def generate_text(self,prompt :str,chat_history:list=[],max_output_tokens:int=None,
+    def generate_text(self,prompt :str,chat_history:list=[],max_output_tokens:int=None,
             temperature:float=None):
 
             if not self.client:
@@ -76,7 +76,7 @@ class OpenAiProvider(LLMinterface):
                 return None
             return Response.choices[0].message["content"]
 
-        def set_embed_text(self,text:str,document_type:str=None):
+    def set_embed_text(self,text:str,document_type:str=None):
             if not self.client:
                 self.logger.erorr("Open Ai client was not set")
                 return None
@@ -97,7 +97,7 @@ class OpenAiProvider(LLMinterface):
             return Response.data[0].embedding
 
 
-        def construct_prompt(self,prompt:str,role:str):
+    def construct_prompt(self,prompt:str,role:str):
             return {
                 "role":role,
                 "content":self.process_text(prompt)

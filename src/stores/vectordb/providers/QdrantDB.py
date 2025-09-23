@@ -6,7 +6,7 @@ from..VectorDBInterface import VectorDBInterface
 from typing import List
 
 
-class QdrantDb(VectorDBInterface):
+class QdrantDBProvider(VectorDBInterface):
 
     def __init__(self,db_path:str,distance_method:str):
         self.client=None

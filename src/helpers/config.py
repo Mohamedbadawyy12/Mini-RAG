@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     FILE_ALLOWED_TYPES: List[str] = ["pdf", "docx", "txt"]
     FILE_MAX_SIZE: int = 10
     FILE_DEFAULT_CHUNCK_SIZE:int=512000
+
+    
     MONGODB_URL: str
     MONGODB_DATABASE: str
 

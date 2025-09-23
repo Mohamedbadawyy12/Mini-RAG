@@ -28,9 +28,9 @@ class OpenAiProvider(LLMinterface):
         
         self.client=OpenAI(
         api_key=self.api_key,
-        api_url=self.api_url
+        base_url=self.api_url if self.api_url and len(self.api_url)else None
         )
-
+        self.enums=OpenAIEnums
         self.logger=logging.getLogger(__name__)
 
     def set_generation_model(self,model_id:str):
@@ -52,7 +52,7 @@ class OpenAiProvider(LLMinterface):
                 self.logger.erorr("Open Ai client was not set")
                 return None
 
-            if not self.genertion_model_id:
+            if not self.generation_model_id:
                 self.logger.erorr("genertion model for Open Ai client was not set")
 
 
@@ -74,7 +74,7 @@ class OpenAiProvider(LLMinterface):
             if not Response or not Response.choices or len (Response.choices)==0 or not Response.choices[0].message:
                 self.logger.erorr("Eorr while generating text with open ai")
                 return None
-            return Response.choices[0].message["content"]
+            return Response.choices[0].message.content
 
     def set_embed_text(self,text:str,document_type:str=None):
             if not self.client:

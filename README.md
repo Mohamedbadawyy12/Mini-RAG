@@ -1,6 +1,6 @@
 
 
-# 📝 mini-rag
+# 📝 Modular-RAG
 
 Minimal implementation of the **RAG model** for Question Answering.
 
